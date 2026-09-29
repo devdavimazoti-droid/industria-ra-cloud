@@ -1,0 +1,111 @@
+* {
+    box-sizing: border-box;
+}
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a-scene {
+    position: absolute !important;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+}
+#hud {
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 30;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    background: linear-gradient(
+    180deg,
+    rgba(10, 25, 47, 0.95) 0%,
+    rgba(26, 54, 93, 0.75) 100%
+    );
+    pointer-events: none;
+}
+#hotspot-layer {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 40;
+
+    pointer-events: none;
+}
+.hotspot{
+    position: absolute;
+    display: none;
+
+    width: 54px;
+    height: 54px;
+
+    transform: 
+    translate(-50%, -50%);
+
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+
+    background: #1565c0;
+    color: #ffffff;
+
+    font-size: 20px;
+    font-weight: 800;
+
+    pointer-events: none;
+
+    touch-action: manipulation;
+}
+.hotspot.visible {
+    display: block;
+}
+.hotspot-danger {
+    background: #d32f2f;
+}
+.hotspot:active {
+    transform: 
+    translate(-50%, -50%)
+    scale(0.90);
+}
+.hidden {
+    display: none !important;
+}
+.info-panel {
+    position: fixed;
+
+    left: 50%;
+    bottom: 24px;
+
+    transform: 
+    translateX(-50%);
+
+    z-index: 60;
+
+    width: 
+    min(92vw, 520px);
+
+    padding: 18px 48px 18px 18px;
+
+    color: #eef7ff;
+
+    background: 
+    rgba(5, 20, 35, 0.96);
+    border: 
+    1px solid
+    rgba(125, 211, 252, 0.65);
+    border-radius: 16px;
+    
+}
