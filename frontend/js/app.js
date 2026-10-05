@@ -46,24 +46,29 @@ document.addEventListener(
 
         const information = {
             Usinagem: {
-                title: "Àrea de Usinagem",
-                text: "Àrea onde ocorre o processo de usinagem das peças",
-                detail: "Status: Àrea de Usinagem"
+                title: "Área de Usinagem",
+                text: "Área onde ocorre o processo de usinagem das peças",
+                detail: "Dados simulados, apenas para fins didáticos"
             },
             Painel: {
                 title: "Painel de Comando",
                 text: "Interface que controla o centro de usinagem",
-                detail: "Status: Painel de Comando"
+                detail: "Dados simulados, apenas para fins didáticos"
             },
-            proteção: {
+            seguranca: {
                 title: "Proteção",
                 text: "Estrutura de proteção que separa o operador da área de usinagem",
-                detail: "Status: Aréa de Proteção"
+                detail: "Dados simulados, apenas para fins didáticos"
             },
             magazine: {
                 title: "Magazine de Ferramentas",
                 text: "Compartimento onde armazena ferramentas utilizadas durante a operação",
-                detail: "Status: Magazine"
+                detail: "Dados simulados, apenas para fins didáticos"
+            },
+            status: {
+                title:"Monitoramento",
+                text:"Dados vindo do Centro de Usinagem",
+                detail:"Dados simulados, apenas para fins didáticos"
             }
         };
         /* Abre o painel com informações do hotspot */
@@ -77,15 +82,24 @@ document.addEventListener(
             panelTitle.textContent = selected.title;
             panelText.textContent = selected.text;
             panelDetail.textContent = selected.detail;
-
             statusResult.textContent = "";
+
+            if (topicName === "status") {
+                consultarStatus();
+                statusButton.classList.remove("hidden");
+                statusResult.classList.remove("hidden");
+            } else {
+                statusButton.classList.add("hidden");
+                statusResult.classList.add("hidden");
+            }
             panel.classList.remove("hidden");
         }
         /* Fecha Painel */
         function hideInformation() {
             panel.classList.add("hidden");
         }
-        async function constultarStatus() {
+        async function consultarStatus() {
+
             statusResult.textContent = "Consultando...";
             try {
                 const resposta = await fetch(API_URL + "/api/maquina");
@@ -124,7 +138,8 @@ document.addEventListener(
         /* Botao de constultar status */
         statusButton.addEventListener("pointerup", (event) => {
             event.preventDefault();
-            constultarStatus();
+            consultarStatus();
+
         });
 
         /* Mindar pronto */

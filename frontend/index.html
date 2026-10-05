@@ -41,17 +41,18 @@
         data-x="0.40"
         data-y="0.09"
         data-z="0.03"
-        aria-label="Painel comando">
-        2
+
+        aria-label="Painel de Comando CNC">
+
         </button>
 
         <button class="hotspot"
         type="button"
-        data-topic="Protecao"
-        data-x="0.16"
-        data-y="-0.07"
+        data-topic="seguranca"
+        data-x="0.36"
+        data-y="0.15"
         data-z="0.03"
-        aria-label="Proteção">
+        aria-label="Proteção e segurança">
         3
         </button>
 
@@ -59,13 +60,22 @@
         type="button"
         data-topic="magazine"
         data-x="0.35"
-        data-y="0.31"
+        data-y="0.16"
         data-z="0.03"
         aria-label="Magazine">
         4
         </button>
     </div>
-
+        <button class="hotspot"
+        type="button"
+        data-topic="status"
+        data-x="0.35"
+        data-y="0.31"
+        data-z="0.03"
+        aria-label="Monitoramento">
+        5
+        </button>
+    </div>
     <!-- Painel Informações -->
     <section
     id="info-panel"
@@ -119,8 +129,8 @@
 
         <!-- Target arquivo .mind -->
         <a-entity
-        id="target"
-        mindar-image-target="targetIndex: 0">
+            id="target"
+            mindar-image-target="targetIndex: 0">
         </a-entity>
     </a-scene>
 
