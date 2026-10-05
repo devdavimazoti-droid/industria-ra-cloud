@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,6 @@
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <title>Centro Usinagem</title>
-
 </head>
 <body>
     <header id="hud">
@@ -15,7 +14,7 @@
             <strong>
                 Centro de Usinagem
             </strong>
-            <span>
+            <span id="status">
                 Iniciando o escaneamento...
             </span>
         </div>
@@ -24,62 +23,69 @@
         </span>
     </header>
 
-    <!-- Camadas hotspot --> 
+    <!-- Camadas hotspot -->
     <div id="hotspot-layer">
         <button class="hotspot"
-        class="hotspot"
         type="button"
         data-topic="Usinagem"
         data-x="0.34"
         data-y="0.02"
         data-z="0.03"
-        arial-label="Àrea de usinagem">
+        aria-label="Área de usinagem">
         1
         </button>
 
         <button class="hotspot"
-        class="hotspot"
         type="button"
         data-topic="Painel"
         data-x="0.07"
         data-y="0.03"
         data-z="0.03"
-        arial-label="Painel">
+        aria-label="Painel de Comando CNC">
         2
         </button>
 
         <button class="hotspot"
-        class="hotspot"
         type="button"
-        data-topic="proteção"
+        data-topic="seguranca"
         data-x="0.36"
-        data-y="0.15" 
+        data-y="0.15"
         data-z="0.03"
-        arial-label="Proteção">
+        aria-label="Proteção e segurança">
         3
         </button>
 
         <button class="hotspot"
-        class="hotspot"
         type="button"
         data-topic="magazine"
         data-x="0.35"
-        data-y="0.16" 
+        data-y="0.16"
         data-z="0.03"
-        arial-label="Magazine">
+        aria-label="Magazine">
         4
         </button>
 
-        <!-- Painel Informações --> 
-        <section
-        id="info-panel"
-        class="info-panel hidden"
-        aria-live="polite">
+        <button class="hotspot"
+        type="button"
+        data-topic="status"
+        data-x="0.35"
+        data-y="0.31"
+        data-z="0.03"
+        aria-label="Monitoramento">
+        5
+        </button>
+    </div>
+
+    <!-- Painel Informações -->
+    <section
+    id="info-panel"
+    class="info-panel hidden"
+    aria-live="polite">
         <button
         id="close-panel"
         class="close-button"
         type="button"
-        aria-label="Fecha panel">
+        aria-label="Fecha painel">
         x
         </button>
         <small>PONTO CENTRO DE USINAGEM</small>
@@ -87,46 +93,48 @@
         <p id="info-text">Descrição.</p>
         <p id="info-detail" class="detail">Detalhe.</p>
 
-        <!-- Cena MindAr --> 
-        </section>
-        <a-scene
-            id="ar-scene"
+        <!-- Botao de status vindo do backend -->
+        <button id="status-button" class="status-button" type="button">
+            Consultar status do equipamento
+        </button>
+        <p id="status-result"></p>
+    </section>
 
-            mindar-image="
-            imageTargetSrc: assets/target/;
-            autoStart: true;
-            uiLoading: yes;
-            uiScanning: yes;
-            uiError: yes;
-            "
-            color-space="sRGB"
+    <!-- Cena MindAr -->
+    <a-scene
+        id="ar-scene"
+        mindar-image="
+        imageTargetSrc: assets/target/centro-usinagem.mind;
+        autoStart: true;
+        uiLoading: yes;
+        uiScanning: yes;
+        uiError: yes;
+        "
+        color-space="sRGB"
+        renderer="
+        colorManagement: true;
+        physicallyCorrectLights: true;
+        alpha: true;
+        "
+        vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false"
+        embedded>
 
-            renderer="
-            colorManagement: true;
-            physicallyCorrectLights: true;
-            alpha: true;
-            "
-            vr-mode-ui="enable: false"
-            device-orientation-permission-ui="enable: false"
-            embedded>
+        <!-- Câmera -->
+        <a-camera
+            id="ar-camera"
+            position="0 0 0"
+            look-controls="enabled: false">
+        </a-camera>
 
-            <!-- Câmera -->
-             <a-camera
-                id="ar-camera"
-                position="0 0 0"
-                look-controls="enable: false">
-             </a-camera> 
-
-             <!-- Target arquivo .mind --> 
-              <a-entity
-              id="target"
-              mindar-image-target="targetIndex: 0">
-              </a-entity>
-    </div>
-
-</body>
+        <!-- Target arquivo .mind -->
+        <a-entity
+            id="target"
+            mindar-image-target="targetIndex: 0">
+        </a-entity>
+    </a-scene>
 
     <!-- Js -->
-     <script src="js/app.js"></script>
-
+    <script src="js/app.js"></script>
+</body>
 </html>
