@@ -99,6 +99,7 @@ document.addEventListener(
             panel.classList.add("hidden");
         }
         async function consultarStatus() {
+
             statusResult.textContent = "Consultando...";
             try {
                 const resposta = await fetch(API_URL + "/api/maquina");
@@ -138,6 +139,7 @@ document.addEventListener(
         statusButton.addEventListener("pointerup", (event) => {
             event.preventDefault();
             consultarStatus();
+
         });
 
         /* Mindar pronto */
