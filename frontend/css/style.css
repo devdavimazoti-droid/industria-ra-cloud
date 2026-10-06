@@ -20,11 +20,15 @@ a-scene {
     height: 100%;
 }
 #hud {
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
 
     z-index: 30;
+
+    padding: 12px 16px;
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
 
     display: flex;
     justify-content: space-between;

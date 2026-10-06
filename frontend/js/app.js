@@ -46,24 +46,29 @@ document.addEventListener(
 
         const information = {
             Usinagem: {
-                title: "Àrea de Usinagem",
-                text: "Àrea onde ocorre o processo de usinagem das peças",
-                detail: "Status: Àrea de Usinagem"
+                title: "Área de Usinagem",
+                text: "Área onde ocorre o processo de usinagem das peças",
+                detail: "Orientação didática: antes de iniciar, verificar se não há cavaco acumulado e se a peça está bem fixada."
             },
             Painel: {
                 title: "Painel de Comando",
                 text: "Interface que controla o centro de usinagem",
-                detail: "Status: Painel de Comando"
+                detail: "Orientação didática: conferir se a tela e o teclado respondem normalmente e se o botão de emergência está livre e visível."
             },
-            proteção: {
+            seguranca: {
                 title: "Proteção",
                 text: "Estrutura de proteção que separa o operador da área de usinagem",
-                detail: "Status: Aréa de Proteção"
+                detail: "Orientação didática: a porta deve ficar fechada durante a usinagem. Conferir se ela fecha direito e se o visor não tem trincas."
             },
             magazine: {
                 title: "Magazine de Ferramentas",
                 text: "Compartimento onde armazena ferramentas utilizadas durante a operação",
-                detail: "Status: Magazine"
+                detail: "Orientação didática: verificar se as ferramentas estão bem encaixadas e se não há ferramenta danificada ou fora do lugar."
+            },
+            status: {
+                title: "Monitoramento",
+                text: "Dados vindo do Centro de Usinagem",
+                detail: "Dados simulados, apenas para fins didáticos"
             }
         };
         /* Abre o painel com informações do hotspot */
@@ -77,33 +82,53 @@ document.addEventListener(
             panelTitle.textContent = selected.title;
             panelText.textContent = selected.text;
             panelDetail.textContent = selected.detail;
-
             statusResult.textContent = "";
+
+            if (topicName === "status") {
+                consultarStatus();
+                statusButton.classList.remove("hidden");
+                statusResult.classList.remove("hidden");
+            } else {
+                statusButton.classList.add("hidden");
+                statusResult.classList.add("hidden");
+            }
             panel.classList.remove("hidden");
         }
         /* Fecha Painel */
         function hideInformation() {
             panel.classList.add("hidden");
         }
-        async function constultarStatus() {
+        async function consultarStatus() {
+
             statusResult.textContent = "Consultando...";
             try {
-                const resposta = await fetch(API_URL + "/api/maquina");
-                if (!resposta.ok) {
-                    throw new Error("error " + resposta.status);
+                const resposta = await fetch(API_URL + "/api/maquina", {
+                    signal: AbortSignal.timeout(10000)
+                });
+                if (resposta.status === 404) {
+                    statusResult.textContent = "Aguardando dados do equipamento..."
+                    return;
                 }
+                if (!resposta.ok) {
+
+                    throw new Error("error" + resposta.status);
+                }
+
                 const dados = await resposta.json();
-                console.log("Backend conectado:", dados);
 
                 statusResult.textContent =
-                    "Status: " + dados.status +
-                    " Temperatura: " + dados.temperatura + "°C" +
-                    " Vibração: " + dados.vibracao +
-                    " Atualização: " + dados.ultimaAtualizacao;
+                    "Status: " + dados.status + "\n" +
+                    " Temperatura: " + dados.temperatura + "°C\n" +
+                    " Vibração: " + dados.vibracao + "\n" +
+                    " Atualização: " + dados.ultimaAtualizacao.split("T")[1] + "\n" +
+                    " HorasUso: " + dados.manutencao.horasUso + "\n" +
+                    "Próxima revisão: " + dados.manutencao.proximaRevisao;
+
             } catch (erro) {
                 console.error("Falha ao conectar no backend:", erro);
                 statusResult.textContent =
-                    "Não foi possivel consultar dados. "
+                    "Não foi possivel consultar dados. " +
+                    "Verificar disponibilidade de serviço. "
             }
         }
         /* Evento de cada hotspot */
@@ -126,7 +151,8 @@ document.addEventListener(
         /* Botao de constultar status */
         statusButton.addEventListener("pointerup", (event) => {
             event.preventDefault();
-            constultarStatus();
+            consultarStatus();
+
         });
 
         /* Mindar pronto */
