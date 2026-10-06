@@ -110,6 +110,7 @@ document.addEventListener(
                     return;
                 }
                 if (!resposta.ok) {
+
                     throw new Error("error" + resposta.status);
                 }
 
@@ -124,6 +125,7 @@ document.addEventListener(
                     "Próxima revisão: " + dados.manutencao.proximaRevisao;
 
             } catch (erro) {
+                console.error("Falha ao conectar no backend:", erro);
                 statusResult.textContent =
                     "Não foi possivel consultar dados. " +
                     "Verificar disponibilidade de serviço. "
