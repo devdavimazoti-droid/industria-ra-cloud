@@ -4,8 +4,11 @@ import random
 import json
 from datetime import datetime
 from zoneinfo import ZoneInfo
+import os
 
-broker = "localhost"
+# Lê o endereço do broker da variável de ambiente MQTT_BROKER.
+# No Docker ela vale "mqtt" (nome do serviço); fora dele, usa "localhost" como padrão.
+broker = os.getenv("MQTT_BROKER", "localhost")
 port = 1883
 
 topicStatus = "centroUsi/status"

@@ -10,7 +10,7 @@ document.addEventListener(
         const cameraElement =
             document.querySelector("#ar-camera");
 
-            /* Referencias da Interface */
+        /* Referencias da Interface */
         const status =
             document.querySelector("#status");
         const badge =
@@ -25,11 +25,11 @@ document.addEventListener(
             document.querySelector("#info-detail");
         const closeButton =
             document.querySelector("#close-panel");
-        const statusButton = 
+        const statusButton =
             document.querySelector("#status-button");
         const statusResult =
             document.querySelector("#status-result");
-            
+
         /* Endereco da API Flask do Back */
         const API_URL = "http://localhost:5000";
 
@@ -38,9 +38,9 @@ document.addEventListener(
                 document.querySelectorAll(".hotspot")
             );
 
-            /* Rastreando target true and false */
-            let tracking =
-                false;
+        /* Rastreando target true and false */
+        let tracking =
+            false;
 
         /* Info dos Botões */
 
@@ -90,16 +90,18 @@ document.addEventListener(
             try {
                 const resposta = await fetch(API_URL + "/api/maquina");
                 if (!resposta.ok) {
-                    throw new Error ("error " + resposta.status);
+                    throw new Error("error " + resposta.status);
                 }
-            const dados = await resposta.json();
+                const dados = await resposta.json();
+                console.log("Backend conectado:", dados);
 
                 statusResult.textContent =
-                "Status: " + dados.status +
-                " Temperatura: " + dados.temperatura + "°C" +
-                " Vibração: " + dados.vibracao +
-                " Atualização: " + dados.ultimaAtualizacao;
+                    "Status: " + dados.status +
+                    " Temperatura: " + dados.temperatura + "°C" +
+                    " Vibração: " + dados.vibracao +
+                    " Atualização: " + dados.ultimaAtualizacao;
             } catch (erro) {
+                console.error("Falha ao conectar no backend:", erro);
                 statusResult.textContent =
                     "Não foi possivel consultar dados. "
             }
@@ -140,7 +142,7 @@ document.addEventListener(
         });
 
         /* Target Encontrado */
-        target.addEventListener ("targetFound",() =>{
+        target.addEventListener("targetFound", () => {
             tracking = true;
             status.textContent = "Equipamento reconhecido"
             badge.textContent = "RA ATIVA"
@@ -149,7 +151,7 @@ document.addEventListener(
                 button.classList.add("visible");
             });
         });
-          /* Target perdido */
+        /* Target perdido */
         target.addEventListener("targetLost", () => {
             tracking = false;
             status.textContent = "Equipamento não Reconhecido";
@@ -162,7 +164,7 @@ document.addEventListener(
             hideInformation();
         });
 
-         /* Acompanha o target na tela (3D -> 2D) */
+        /* Acompanha o target na tela (3D -> 2D) */
         function updateHotspotPositions() {
             requestAnimationFrame(updateHotspotPositions);
 
@@ -205,7 +207,7 @@ document.addEventListener(
                     screenY < window.innerHeight + 80;
 
                 button.style.visibility = insideScreen ? "visible" : "hidden";
-                });
+            });
         }
 
         updateHotspotPositions();
