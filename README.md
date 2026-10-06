@@ -19,49 +19,6 @@ Os hotspots 1 a 4 mostram informações técnicas que ficam no próprio frontend
 
 **Importante:** todos os valores de temperatura, vibração, status e manutenção são SIMULADOS.
 
-
-**Diagrama Arquitetura:**
-
-+----------------------------------------------------------------------------------------------------+
-|  DISPOSITIVO MÓVEL (Smartphone / Tablet)                                                           |
-|                                                                                                    |
-|  +----------------------------------------------------------------------------------------------+  |
-|  | Frontend WebAR (A-Frame / MindAR)                                                            |  |
-|  | - HTML, CSS, JavaScript                                                                      |  |
-|  | - Exibe a câmera e reconhece o Target (.mind)                                                |  |
-|  | - Mostra Hotspots 1 a 4 (Dados Estáticos) e Hotspot 5 (Dinâmico)                             |  |
-|  +----------------------------------------------------------------------------------------------+  |
-|         |                                                                        |                 |
-|         | (Abre a câmera via HTTPS)                                              | (HTTP / JSON)   |
-|         v                                                                        v                 |
-|  [ Navegador do Celular ]                                            [ Requisição GET /api/maquina ]|
-+----------------------------------------------------------------------------------|-----------------+
-                                                                                   |
-                                                                                   | (Rede Externa / 
-                                                                                   |  Encaminhamento HTTPS)
-                                                                                   v
-+----------------------------------------------------------------------------------------------------+
-|  DOCKER COMPOSE (Ambiente de Containers Isolados)                                                  |
-|                                                                                                    |
-|      +-----------------------+              +------------------------+                             |
-|      |  API Flask            |              |  Broker MQTT           |                             |
-|      |  (Porta 5000)         |              |  (Mosquitto - P 1883)  |                             |
-|      |                       |              |                        |                             |
-|      |  - Rota /api/maquina  | <----------- |  - Recebe publicações  |                             |
-|      |  - Salva em memória   |  (Inscrita   |  - Entrega mensagens   |                             |
-|      +-----------------------+   no Tópico) +------------------------+                             |
-|                  ^                                       ^                                         |
-|                  |                                       |                                         |
-|                  +------------------+--------------------+                                         |
-|                                     |                                                              |
-|                       +---------------------------+                                                |
-|                       |  Simulador (Python)       |                                                |
-|                       |                           |                                                |
-|                       |  - Publica dados fictícios|                                                |
-|                       |    a cada 5 segundos      |                                                |
-|                       +---------------------------+                                                |
-+----------------------------------------------------------------------------------------------------+
-
 ## Arquitetura
 
 - **Frontend WebAR** (HTML, CSS, JavaScript, A-Frame e MindAR): reconhece o target, mostra os hotspots e consulta a API por HTTP/JSON.
